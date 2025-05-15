@@ -283,11 +283,12 @@ void getBtFileName(char* filename)
 
 void BinaryTree::printbtArray()
 {
+	cout << "二叉树对应的顺序表（\"/\"表示空节点）为：";
 	for (int i = 1; i < arrayLength; i++)
 	{
 		cout << btArray[i] << " ";
 	}
-	cout << "#\n";
+	cout << endl;
 }
 
 int BinaryTree::getNode()

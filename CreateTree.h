@@ -24,68 +24,6 @@ typedef struct pTree
 	int n;              //结点总数
 }pTree;
 
-
-//初始化树
-void initialTree(pTree &T)
-{
-	T.n=0;   //结点数初始化为0
-}
-
-//求祖先结点
-bool getAncestor(pTree &T, elementType x)
-{
-	int w=0;
-	elementType y;
-	y=x;
-	
-	for(w=0;w<T.n;w++)
-	{
-		if(T.node[w].data==y)
-		{
-			w=T.node[w].parent;     //取得x的父结点
-			y=T.node[w].data;
-			cout<<y<<"\t";
-			break;
-		}
-	}
-	if(w>=T.n)    //x不在树上，返回false
-		return false;
-	
-	             //搜索x父结点之外的其它祖先结点
-	while(w!=-1)
-	{
-		if(T.node[w].data==y)
-		{
-			w=T.node[w].parent;     //取得w的双亲结点下标
-			y=T.node[w].data;
-			cout<<y<<"\t";	
-		}
-		else
-			w=(w+1)%T.n;
-	}
-	return true;
-}
-
-//求孩子结点
-void getChildren(pTree &T, elementType x)
-{
-	int i,w;
-	for(w=0;w<T.n;w++)     //获取x在结点数组中的下标
-	{
-		if(T.node[w].data==x)
-			break;
-	}
-	if(w>=T.n)  //x不在表中
-		return;
-	for(i=0;i<T.n;i++)
-	{
-		if(T.node[i].parent==w)   //找到子结点，打印
-			cout<<T.node[i].data<<"\t";	
-	}
-	cout<<endl;
-}
-
-//先序遍历
 int firstChild(pTree &T,int v)    //搜索下标为v的结点的第一个孩子结点下标
 {
 	int w;
@@ -99,83 +37,6 @@ int firstChild(pTree &T,int v)    //搜索下标为v的结点的第一个孩子结点下标
 	}
 	return -1;
 }
-int nextSibling(pTree &T,int v,int w)  //搜索v的下标位于w之后的下一个孩子结点下标
-{
-	int i;
-	for(i=w+1;i<T.n;i++)
-		if(T.node[i].parent==v)
-			return i;
-	return -1;
-}
-void preOrder(pTree &T,int v)
-{
-	int w;
-	cout<<T.node[v].data<<"\t";
-
-	w=firstChild(T,v);
-	while(w!=-1)
-	{
-
-		preOrder(T,w);
-		w=nextSibling(T,v,w);	
-	}
-}
-
-
-void preTraverse(pTree &T)
-{
-	int i;
-	int visited[MAXLEN];
-	for(i=0;i<T.n;i++)
-	{
-		visited[i]=0;	
-	}
-	    //搜索根结点，可能是森林，有多个根结点
-	for(i=0;i<T.n;i++)
-	{
-		if(T.node[i].parent==-1)
-			preOrder(T,i);
-	}	
-}
-
-void postOrder(pTree &T,int v)
-{
-	int w;
-	w=firstChild(T,v);
-	while(w!=-1)
-	{
-		postOrder(T,w);
-		w=nextSibling(T,v,w);	
-	}
-	cout<<T.node[v].data<<"\t";   //访问根结点
-}
-
-void postTraverse(pTree &T)
-{
-	int i;
-	int visited[MAXLEN];
-	for(i=0;i<T.n;i++)
-	{
-		visited[i]=0;	
-	}
-	    //搜索根结点，可能是森林，有多个根结点
-	for(i=0;i<T.n;i++)
-	{
-		if(T.node[i].parent==-1)
-			postOrder(T,i);
-	}
-}
-
-//打印树
-void printTree(pTree &T)
-{
-	int i;
-	cout<<"下标\t结点\t双亲"<<endl;
-	for(i=0;i<T.n;i++)
-		cout<<i<<"\t"<<T.node[i].data<<"\t"<<T.node[i].parent<<endl;
-}
-
-//双亲表示定义、算法结束---------------------------------------------------------------
 
 //孩子兄弟链表表示定义、创建算法开始---------------------------------------------------
     //树（森林）的孩子兄弟链表表示
@@ -388,5 +249,106 @@ void createCsTree(csNode *&T,pTree T1)
 
 
 //孩子兄弟链表表示定义、创建算法结束---------------------------------------------------
+
+void getTreeFileName(char* filename)
+{
+	while (1)
+	{
+		cout << "             ___________________________________________________________________________ " << endl;
+		cout << "            |                           请选择数据文件                                  |" << endl;
+		cout << "            |1.F14.tre                                                                  |" << endl;
+		cout << "            |2.F16.tre                                                                  |" << endl;
+		cout << "            |3.F18.tre                                                                  |" << endl;
+		cout << "            |4.F20.tre                                                                  |" << endl;
+		cout << "            |5.tree10.tre                                                               |" << endl;
+		cout << "            |6.tree11.tre                                                               |" << endl;
+		cout << "            |___________________________________________________________________________|" << endl;
+		cout << endl;
+		cout << "输入选择的数据文件：";
+		int n;
+		cin >> n;
+		switch (n)
+		{
+		case 1: { strcpy(filename, "Tdata\\F14.tre"); return; }
+		case 2: { strcpy(filename, "Tdata\\F16.tre"); return; }
+		case 3: { strcpy(filename, "Tdata\\F18.tre"); return; }
+		case 4: { strcpy(filename, "Tdata\\F20.tre"); return; }
+		case 5: { strcpy(filename, "Tdata\\tree10.tre"); return; }
+		case 6: { strcpy(filename, "Tdata\\tree11.tre"); return; }
+		default: { cout << "输入无效" << endl; }
+		}
+	}
+}
+
+int getTreeHeight(csNode* bt)
+{
+	int lHeight = 1, rHeight = 1;
+	if (bt->firstChild != NULL)
+		lHeight = getTreeHeight(bt->firstChild) + 1;
+	if (bt->nextSibling != NULL)
+		rHeight = getTreeHeight(bt->nextSibling);
+	return (lHeight >= rHeight) ? lHeight : rHeight;
+}
+
+void printCsTree(csNode* bt)
+{
+	if (bt == NULL)
+		return;
+	cout << bt->data;
+	if (bt->firstChild != NULL)
+	{
+		cout << "(";
+		printCsTree(bt->firstChild);
+		cout << ")";
+	}
+	if (bt->nextSibling != NULL)
+	{
+		cout << ",";
+		printCsTree(bt->nextSibling);
+	}
+}
+
+void printCsTreeToGT(csNode* bt)
+{
+	if (bt != NULL)
+	{
+		cout << bt->data;
+		cout << "(";
+		printCsTree(bt->firstChild);
+		cout << ")";
+		if (bt->nextSibling != NULL)
+		{
+			cout << ",  ";
+			printCsTreeToGT(bt->nextSibling);
+		}
+	}
+	else
+		return;
+}
+
+void treeQuestion(int question)
+{
+	pTree T;
+	csNode* csT;
+	char filename[20] = "\0";
+	getTreeFileName(filename);
+	if (CreateTreeFromFile(filename, T) == true)
+	{
+		createCsTree(csT, T);
+		if (question == 1)
+			cout << "树高为：" << getTreeHeight(csT) << endl;;
+		if (question == 2)
+		{
+			cout << "广义表表示的树（森林）为：";
+			printCsTreeToGT(csT);
+			cout << endl;	
+		}
+			
+	}
+	else
+	{
+		cout << "读取文件信息时发生错误！" << endl;
+	}
+}
 
 #endif
