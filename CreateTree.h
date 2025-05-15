@@ -269,12 +269,12 @@ void getTreeFileName(char* filename)
 		cin >> n;
 		switch (n)
 		{
-		case 1: { strcpy(filename, "Tdata\\F14.tre"); return; }
-		case 2: { strcpy(filename, "Tdata\\F16.tre"); return; }
-		case 3: { strcpy(filename, "Tdata\\F18.tre"); return; }
-		case 4: { strcpy(filename, "Tdata\\F20.tre"); return; }
-		case 5: { strcpy(filename, "Tdata\\tree10.tre"); return; }
-		case 6: { strcpy(filename, "Tdata\\tree11.tre"); return; }
+		case 1: { strcpy(filename, "tData\\F14.tre"); return; }
+		case 2: { strcpy(filename, "tData\\F16.tre"); return; }
+		case 3: { strcpy(filename, "tData\\F18.tre"); return; }
+		case 4: { strcpy(filename, "tData\\F20.tre"); return; }
+		case 5: { strcpy(filename, "tData\\tree10.tre"); return; }
+		case 6: { strcpy(filename, "tData\\tree11.tre"); return; }
 		default: { cout << "ÊäÈëÎÞÐ§" << endl; }
 		}
 	}
