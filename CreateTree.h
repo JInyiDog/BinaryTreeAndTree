@@ -53,7 +53,7 @@ void strLTrim(char* str)
 {
 	int i,j;
 	int n=0;
-	n=strlen(str)+1;
+	n=(int)strlen(str)+1;
 	for(i=0;i<n;i++)
 	{
 		if(str[i]!=' ')  //找到左起第一个非空格位置
@@ -76,7 +76,7 @@ void strLTrim(char* str)
 //* 函 数 名：CreateTreeFromFile(char fileName[], pTree &T)         *//
 //* 备注：本函数使用的数据文件格式以边（父子对）为基本数据          *//
 //*******************************************************************//
-int CreateTreeFromFile(char fileName[], pTree &T)
+bool CreateTreeFromFile(char fileName[], pTree &T)
 {
 	FILE* pFile;     //定义顺序表的文件指针
 	char str[1000];  //存放读出一行文本的字符串
@@ -124,6 +124,7 @@ int CreateTreeFromFile(char fileName[], pTree &T)
 			continue;
 
 		strncpy(strTemp,str,2);
+		strTemp[2] = '\0'; // 确保字符串以零终止符结尾
 		if(strstr(strTemp,"//")!=NULL)  //注释行，跳过，继续读取下一行
 			continue;		
 		else  //非空行，也非注释行，即图的顶点元素行
@@ -156,6 +157,7 @@ int CreateTreeFromFile(char fileName[], pTree &T)
 			continue;
 		
 		strncpy(strTemp,str,2);
+		strTemp[2] = '\0'; // 确保字符串以零终止符结尾
 		if(strstr(strTemp,"//")!=NULL)  //注释行，跳过，继续读取下一行
 			continue;
 

@@ -47,7 +47,7 @@ void BistrLTrim(char* str)
 {
 	int i, j;
 	int n = 0;
-	n = strlen(str) + 1;
+	n = (int)strlen(str) + 1;
 	for (i = 0; i < n; i++)
 	{
 		if (str[i] != ' ')  //找到左起第一个非空格位置
@@ -91,6 +91,7 @@ bool ReadFileToArray(char fileName[], char strLine[NODENUM][3], int & nArrLen)
 			continue;
 
 		strncpy(strTemp,str,2);
+		strTemp[2] = '\0'; // 确保字符串以零终止符结尾
 		if(strstr(strTemp,"//")!=NULL)  //跳过注释行
 			continue;
 		else                            //非注释行、非空行，跳出循环
@@ -123,6 +124,7 @@ bool ReadFileToArray(char fileName[], char strLine[NODENUM][3], int & nArrLen)
 			continue;
 		
 		strncpy(strTemp,str,2);
+		strTemp[2] = '\0'; // 确保字符串以零终止符结尾
 		if(strstr(strTemp,"//")!=NULL)  //注释行，跳过，继续读取下一行
 			continue;
 
