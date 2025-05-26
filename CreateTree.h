@@ -297,7 +297,7 @@ void getTreeDegree(csNode* csT, int& maxDegree, int nowDegree)
 int getDegree(csNode* csT)
 {
 	int degree = 0;
-	while (csT->nextSibling != NULL)
+	while (csT != NULL)
 	{
 		int maxDegree = 0;
 		getTreeDegree(csT, maxDegree, 1);
