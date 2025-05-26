@@ -282,14 +282,30 @@ void getTreeFileName(char* filename)
 	}
 }
 
-int getTreeHeight(csNode* bt)
+void getTreeDegree(csNode* csT, int& maxDegree, int nowDegree)
 {
-	int lHeight = 1, rHeight = 1;
-	if (bt->firstChild != NULL)
-		lHeight = getTreeHeight(bt->firstChild) + 1;
-	if (bt->nextSibling != NULL)
-		rHeight = getTreeHeight(bt->nextSibling);
-	return (lHeight >= rHeight) ? lHeight : rHeight;
+	if (csT->firstChild != NULL)
+		getTreeDegree(csT->firstChild, maxDegree, 1);
+	if (csT->nextSibling != NULL)
+	{
+		if (nowDegree + 1 > maxDegree)
+			maxDegree = nowDegree + 1;
+		getTreeDegree(csT->nextSibling, maxDegree, nowDegree + 1);
+	}
+}
+
+int getDegree(csNode* csT)
+{
+	int degree = 0;
+	while (csT->nextSibling != NULL)
+	{
+		int maxDegree = 0;
+		getTreeDegree(csT, maxDegree, 1);
+		if (maxDegree > degree)
+			degree = maxDegree;
+		csT = csT->nextSibling;
+	}
+	return degree;
 }
 
 void printCsTree(csNode* bt)
@@ -324,8 +340,6 @@ void printCsTreeToGT(csNode* bt)
 			printCsTreeToGT(bt->nextSibling);
 		}
 	}
-	else
-		return;
 }
 
 void treeQuestion(int question)
@@ -338,7 +352,9 @@ void treeQuestion(int question)
 	{
 		createCsTree(csT, T);
 		if (question == 1)
-			cout << "树高为：" << getTreeHeight(csT) << endl;;
+		{
+			cout << "树的度为：" << getDegree(csT) << endl;
+		}	
 		if (question == 2)
 		{
 			cout << "广义表表示的树（森林）为：";
